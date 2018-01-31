@@ -12,45 +12,70 @@ namespace ViewModel
     public class Presenter : ObservableObject
     {
         private readonly TextConverter _textConverter = new TextConverter(x => x.ToUpper());
-        private string _someText;
-        private readonly ObservableCollection<string> _history = new ObservableCollection<string>();
+        private readonly ObservableCollection<Ingredient> _ingredients = new ObservableCollection<Ingredient>();
+        private string _name;
+        private string _quantity;
+        private string _unit;
 
-        public string SomeText
+        public string Name
         {
-            get { return _someText; }
+            get { return _name; }
             set
             {
-                _someText = value;
-                RaisePropertyChangedEvent("SomeText");
+                _name = value;
+                RaisePropertyChangedEvent("Name");
             }
         }
 
-        public IEnumerable<string> History
+        public string Quantity
         {
-            get { return _history; }
+            get { return _quantity; }
+            set
+            {
+                _quantity = value;
+                RaisePropertyChangedEvent("Quantity");
+            }
         }
 
-        public ICommand ConvertTextCommand
+        public string Unit
         {
-            get { return new DelegateCommand(ConvertText); }
+            get { return _unit; }
+            set
+            {
+                _unit = value;
+                RaisePropertyChangedEvent("Unit");
+            }
         }
 
-        private void ConvertText()
+        public IEnumerable<Ingredient> History
         {
-            if (string.IsNullOrWhiteSpace(SomeText))
+            get { return _ingredients; }
+        }
+
+        public ICommand AddItemCommand
+        {
+            get { return new DelegateCommand(AddItem); }
+        }
+
+        private void AddItem()
+        {
+            bool AllPopulated = string.IsNullOrWhiteSpace(Name) || string.IsNullOrWhiteSpace(Name) || string.IsNullOrWhiteSpace(Name);
+            if (AllPopulated)
             {
                 return;
             }
 
-            AddToHistory(_textConverter.ConvertText(SomeText));
-            SomeText = string.Empty;
+            AddToHistory(new Ingredient(Name, Quantity, Unit));
+            Name = string.Empty;
+            Quantity = string.Empty;
+            Unit = string.Empty;
         }
 
-        private void AddToHistory(string item)
+        private void AddToHistory(Ingredient item)
         {
-            if (!_history.Contains(item))
+            if (!_ingredients.Contains(item))
             {
-                _history.Insert(0, item);
+                _ingredients.Insert(0, item);
             }
         }
     }
