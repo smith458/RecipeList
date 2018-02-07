@@ -9,15 +9,25 @@
     <UserControl.InputBindings>
         <KeyBinding Key="Enter" Command="{Binding AddItemCommand}"/>
     </UserControl.InputBindings>
-    <StackPanel Height="336">
-        <Label Foreground="Blue" Margin="5,5,5,0">Text To Convert</Label>
-        <StackPanel Orientation="Horizontal">
-            <TextBox Text="{Binding Name, UpdateSourceTrigger=PropertyChanged}" Margin="5" Width="130"/>
-            <TextBox Text="{Binding Quantity, UpdateSourceTrigger=PropertyChanged}" Margin="5" Width="70"/>
-            <TextBox Text="{Binding Unit, UpdateSourceTrigger=PropertyChanged}" Margin="5" Width="70"/>
+    <DockPanel>
+        <Menu DockPanel.Dock="Top">
+            <MenuItem Header="_File">
+                <MenuItem Header="_Export" Command="{Binding SaveRecipeCommand}"/>
+                <MenuItem Header="_Import" Command="{Binding LoadRecipeCommand}"/>
+            </MenuItem>
+        </Menu>
+        <StackPanel></StackPanel>
+
+        <StackPanel Height="336">
+            <Label Foreground="Blue" Margin="5,5,5,0">Text To Convert</Label>
+            <StackPanel Orientation="Horizontal">
+                <TextBox Text="{Binding Name, UpdateSourceTrigger=PropertyChanged}" Margin="5" Width="130"/>
+                <TextBox Text="{Binding Quantity, UpdateSourceTrigger=PropertyChanged}" Margin="5" Width="70"/>
+                <TextBox Text="{Binding Unit, UpdateSourceTrigger=PropertyChanged}" Margin="5" Width="70"/>
+            </StackPanel>
+            <Label Foreground="Blue" Margin="5,5,5,0">History</Label>
+            <DataGrid ItemsSource="{Binding History}" Height="200" Margin="5"/>
+            <Button Command="{Binding AddItemCommand}" Margin="5">Convert</Button>
         </StackPanel>
-        <Label Foreground="Blue" Margin="5,5,5,0">History</Label>
-        <DataGrid ItemsSource="{Binding History}" Height="200" Margin="5"/>
-        <Button Command="{Binding AddItemCommand}" Margin="5">Convert</Button>
-    </StackPanel>
+    </DockPanel>
 </UserControl>
