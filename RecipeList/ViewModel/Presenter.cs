@@ -14,12 +14,12 @@ namespace ViewModel
 {
     public class Presenter : ObservableObject
     {
-        private readonly TextConverter _textConverter = new TextConverter(x => x.ToUpper());
         private ObservableCollection<Ingredient> _ingredients = new ObservableCollection<Ingredient>();
         private string _name;
         private string _quantity;
         private string _unit;
         private readonly string RECIPE_FILE_NAME = "Recipe.xml";
+        private bool _visAddIngredient = false;
 
         public string Name
         {
@@ -51,8 +51,25 @@ namespace ViewModel
             }
         }
 
+        public bool VisAddIngredient
+        {
+            get { return _visAddIngredient; }
+            set
+            {
+                _visAddIngredient = value;
+                RaisePropertyChangedEvent("VisAddIngredient");
+                RaisePropertyChangedEvent("NotVisAddIngredient");
+            }
+        }
+
+        //Inverse of VisAddIngredient
+        public bool NotVisAddIngredient
+        {
+            get { return !_visAddIngredient; }
+        }
+
         //Not Sure what this does
-        public IEnumerable<Ingredient> History
+        public IEnumerable<Ingredient> Ingredient
         {
             get { return _ingredients; }
         }
@@ -60,6 +77,11 @@ namespace ViewModel
         public ICommand AddItemCommand
         {
             get { return new DelegateCommand(AddItem); }
+        }
+
+        public ICommand DontAddItemCommand
+        {
+            get { return new DelegateCommand(DontAddItem); }
         }
 
         public ICommand SaveRecipeCommand
@@ -72,6 +94,16 @@ namespace ViewModel
             get { return new DelegateCommand(LoadXMLString); }
         }
 
+        public ICommand ToggleAddIngredientCommand
+        {
+            get { return new DelegateCommand(ToggleAddIngredient); }
+        }
+
+        public void ToggleAddIngredient()
+        {
+            VisAddIngredient = !VisAddIngredient;
+        }
+
         private void AddItem()
         {
             bool AllPopulated = string.IsNullOrWhiteSpace(Name) || string.IsNullOrWhiteSpace(Quantity) || string.IsNullOrWhiteSpace(Unit);
@@ -81,6 +113,17 @@ namespace ViewModel
             }
 
             _ingredients.Add(new Ingredient(Name, Quantity, Unit));
+            ClearIngredientFields();
+        }
+
+        private void DontAddItem()
+        {
+            VisAddIngredient = false;
+            ClearIngredientFields();
+        }
+
+        private void ClearIngredientFields()
+        {
             Name = string.Empty;
             Quantity = string.Empty;
             Unit = string.Empty;

@@ -45,6 +45,7 @@
     <Compile Include="ObservableObject.cs" />
     <Compile Include="Presenter.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Visibility.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\RecipeList\Model.csproj">

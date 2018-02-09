@@ -13,11 +13,11 @@ namespace ViewModel
         private string _quantity;
         private string _unit;
 
-        public Ingredient(string name, string quantity = "1", string unit = "cup")
+        public Ingredient(string name, string quantity, string unit)
         {
-            _name = name;
-            _quantity = quantity;
-            _unit = unit;
+            _name = name.Trim();
+            _quantity = quantity.Trim();
+            _unit = unit.Trim();
         }
 
         public string Name
@@ -42,6 +42,11 @@ namespace ViewModel
             {
                 return _unit;
             }
+        }
+
+        public override string ToString()
+        {
+            return String.Format("{0,5} {1,8} {2,15}", Quantity, Unit, Name);
         }
     }
 }

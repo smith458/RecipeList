@@ -1,11 +1,14 @@
-﻿<UserControl x:Class="View.ConverterControl"
+﻿<UserControl x:Class="View.RecipeControl"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:View"
              mc:Ignorable="d" 
-             d:DesignHeight="300" d:DesignWidth="300">
+             d:DesignHeight="500" d:DesignWidth="300">
+    <UserControl.Resources>
+        <BooleanToVisibilityConverter x:Key="BoolToVis"/>
+    </UserControl.Resources>
     <UserControl.InputBindings>
         <KeyBinding Key="Enter" Command="{Binding AddItemCommand}"/>
     </UserControl.InputBindings>
@@ -16,18 +19,11 @@
                 <MenuItem Header="_Import" Command="{Binding LoadRecipeCommand}"/>
             </MenuItem>
         </Menu>
-        <StackPanel></StackPanel>
-
+        <Button Content="Add Ingredient" DockPanel.Dock="Top" Command="{Binding ToggleAddIngredientCommand}" Visibility="{Binding NotVisAddIngredient, Converter={StaticResource BoolToVis}}"></Button>
+        <local:AddIngredient DockPanel.Dock="Top" Visibility="{Binding VisAddIngredient, Converter={StaticResource BoolToVis}}"/>
         <StackPanel Height="336">
-            <Label Foreground="Blue" Margin="5,5,5,0">Text To Convert</Label>
-            <StackPanel Orientation="Horizontal">
-                <TextBox Text="{Binding Name, UpdateSourceTrigger=PropertyChanged}" Margin="5" Width="130"/>
-                <TextBox Text="{Binding Quantity, UpdateSourceTrigger=PropertyChanged}" Margin="5" Width="70"/>
-                <TextBox Text="{Binding Unit, UpdateSourceTrigger=PropertyChanged}" Margin="5" Width="70"/>
-            </StackPanel>
-            <Label Foreground="Blue" Margin="5,5,5,0">History</Label>
-            <DataGrid ItemsSource="{Binding History}" Height="200" Margin="5"/>
-            <Button Command="{Binding AddItemCommand}" Margin="5">Convert</Button>
+            <Label Foreground="Black" Margin="5,5,5,0">Ingredients</Label>
+            <ItemsControl ItemsSource="{Binding Ingredient}" FontFamily="Courier New"/>
         </StackPanel>
     </DockPanel>
 </UserControl>

@@ -16,11 +16,11 @@ using System.Windows.Shapes;
 namespace View
 {
     /// <summary>
-    /// Interaction logic for ConverterControl.xaml
+    /// Interaction logic for AddIngredient.xaml
     /// </summary>
-    public partial class ConverterControl : UserControl
+    public partial class AddIngredient : UserControl
     {
-        public ConverterControl()
+        public AddIngredient()
         {
             InitializeComponent();
         }
